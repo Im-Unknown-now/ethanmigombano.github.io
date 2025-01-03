@@ -1,0 +1,20 @@
+name: "Ethan Migombano"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: "Extracurricular Activities"
+      href: extra_activities.html
+    - text: "Projects"
+      href: projects.html 
+    - icon: fa-envelope fa-lg
+      href: mailto:<ebwija09@gmail.com>
+    - icon: fa-github fa-lg
+      href: https://github.com/Im-Unknown-now
+    - icon: fa-brands fa-x-twitter
+      href: https://x.com/Im_Unknown__now
+    - icon: fa-brands fa-linkedin
+      href: https://www.linkedin.com/in/ethan-migombano-1377b2335/
+output:
+  html_document:
+    theme: simplex

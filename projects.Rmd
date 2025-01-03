@@ -1,0 +1,92 @@
+---
+title: "Projects"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+This Christmas break (in my 11th grade), I took the Fundamentals of R programming course to enhance my programming skills. The course offered by [The Know Place](https://theknowplace.github.io), was taught by [Ms Chiomah Ezeomah](https://chiomahezeomah.github.io).
+The project from this course is below.
+
+# Project
+In this project I was tasked with making plots using real life, publicly available data from the [NCDC(Nigerian Center of Disease Control)](https://ncdc.gov.ng/ncdc.gov.ng/data), a public health organization, to make these plots.
+
+```{r, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(readxl)
+```
+
+```{r, include=FALSE}
+NCDC_2024_Data <- read_xlsx("C:/Users/hp/OneDrive/Documents/R_Programming_Course/TKP_R_Programming/Actual_TKP_R_Programming_project/ncdc_2024.xlsx", sheet = 1)
+```
+
+```{r, include=FALSE}
+head(NCDC_2024_Data)
+```
+## Cases per Week
+This line chart represents the total number of cases per week of the year for each disease. The usefulness of this chart is that we could detect any type of trends present, tell what disease is the prevalent through a set of weeks, and the change in the number of cases for each disease through out the year. As we can see, Measles is the most prominent through out the year, it has a huge start reaching its peak in about 10 weeks, and as fast as it increase it also swiftly declines till the 20th week, for the rest of the year it stays relatively high compared to the other and has two spikes, one almost immediately after the rapid decrease and one fairly close to the end of the year, from this we can tell that Measles is a very serious disease. The graph also shows that Yellow fever, Mpox, and CS Meningitis, remain relatively low through out the year, Cholera and Lassa fever, later follow before the 20 week mark. Cholera has a mild rise, reaching as high Measles in few cases, but inevitably goes down and joins the rest.
+
+```{r, echo=FALSE, warning=FALSE}
+ggplot(NCDC_2024_Data, aes(x = epid.week, y = cases, color = disease)) +
+  geom_line(linewidth = 1) + 
+  scale_color_manual(values = c("#01BEFE", "#FFDD00", "#FF7D00", "#FF006D", "#ADFF02", "#8F00FF"), labels = c("Cholera", "CS Meningitis", "Lassa fever", "Measles", "Mpox", "Yellow fever")) + #from coolors
+  theme_minimal() +
+  xlab("Week") + theme(axis.title.x = element_text(hjust = 0.5, size = 11, face = "bold", family = "Nunito")) +
+  ylab("Cases") + theme(axis.title.y = element_text(vjust = 0.5, size = 11, face = "bold", family = "Nunito")) +
+  labs(title = "Line graph of Week vs Cases") + theme(plot.title = element_text(hjust = 0.5, size = 13, face = "bold", family = "Nunito")) +
+  labs(color = "Disease") + theme(legend.title = element_text(size = 13, hjust = 0.5, face = "bold", family = "Nunito"), legend.text = element_text(size = 10, family = "Nunito"))
+```
+
+## Disease vs Cases
+This Box plot displays a lot of important information, it displays the minimum, maximum, median, and outliers of each disease, it summarizes the distribution in the data set, and lets us compare with the other diseases, with this information, we can tell how evenly spread the data is or isn't. From the plot we can see how yet again, measles has the max number of cases. We can tell the dispersion of each disease, for example how Yellow fever, CS Meningitis, and Mpox have very low max cases, and don't have a wind number of cases, unlike Measles, Cholera, or Lassa fever. Both Cholera and Lassa fever have low ranges, which in turn gives them a lot of outliers.
+
+```{r, echo=FALSE, warning=FALSE}
+ggplot(NCDC_2024_Data, aes(x = disease, y = cases, color = disease)) +
+  geom_boxplot() + 
+  theme_minimal() +
+  scale_color_manual(values = c("#01BEFE", "#FFDD00", "#FF7D00", "#FF006D", "#ADFF02", "#8F00FF"), labels = c("Cholera", "CS Meningitis", "Lassa fever", "Measles", "Mpox", "Yellow fever")) +
+  xlab("Diseases") + theme(axis.title.x = element_text(hjust = 0.5, size = 12, face="bold"), family = "Nunito") + 
+  ylab("Cases") + theme(axis.title.y = element_text(vjust = 0.5, size = 12, face="bold"), family = "Nunito") + 
+  labs(title = "Box plot of Disease vs Cases") + theme(plot.title = element_text(hjust = 0.5, size = 15, family = "Nunito")) + # Need to change the font, family function isn't working
+  labs(color = "Disease") + theme(legend.title = element_text(hjust = 0.5, size = 12, face = "bold", family = "Nunito")) +
+  theme(legend.text = element_text(size = 10, family = "Nunito")) + scale_x_discrete(labels = c("Cholera", "CS Meningitis", "Lassa fever", "Measles", "Mpox", "Yellow fever"))
+```
+
+```{r, include=FALSE}
+NCDC_2024_Data_Total_Cases <- NCDC_2024_Data %>%
+  group_by(disease) %>% 
+  mutate(Cumulative.total = cumsum(cases))
+```
+
+```{r, include=FALSE}
+tail(NCDC_2024_Data_Total_Cases)
+```
+
+```{r, include=FALSE}
+NCDC_2024_Data_Total <- NCDC_2024_Data_Total_Cases %>% 
+  filter(epid.week == 53)
+```
+
+```{r, include=FALSE}
+head(NCDC_2024_Data_Total)
+```
+
+## Total amount per Disease
+This bar chart shows us the total number of cases per disease for the year, letting us make decisions like which disease to focus more on next year, it gives a scope on which disease is prevalent, and what disease to focus on the most instead of focusing on all of them equally. This chart is the sum of all the cases grouped by disease, we can tell that, Measles had the most amount of cases, followed by Lassa fever, then Cholera, then Yellow fever, then CS Meningitis, and finally the disease with the least amount of cases, Mpox, with this information we can tell that Measles is the least controlled disease, which needs to be taken car of, so next year we can focus more on controlling measles, to reduce to a low amount.
+
+```{r, echo=FALSE, warning=FALSE}
+ggplot(NCDC_2024_Data_Total, aes(x = disease, y = Cumulative.total, color = disease)) +
+  geom_bar(stat = "identity", fill = "#8F00FF", color = "#8F00FF") + theme_minimal() +
+  xlab("Disease") + theme(axis.title.x = element_text(family = "Nunito", size = 12, hjust = 0.5, face = "bold")) +
+  ylab("Total") + theme(axis.title.y = element_text(family = "Nunito", size = 12, vjust = 0.5, face = "bold")) +
+  labs(title = "Chart of Total vs Disease") + theme(plot.title = element_text(family = "Nunito", size = 14, hjust = 0.5, face = "bold")) +
+  scale_x_discrete(labels = c("Cholera", "CS Meningitis", "Lassa fever", "Measles", "Mpox", "Yellow fever")) + coord_flip()
+  
+```
+
+
+
+
+
