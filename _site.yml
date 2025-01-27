@@ -5,7 +5,7 @@ navbar:
   right:
     - text: "Extracurricular Activities"
       href: extra_activities.html
-    - text: "Projects"
+    - text: "Course Projects"
       href: projects.html 
     - icon: fa-envelope fa-lg
       href: mailto:<ebwija09@gmail.com>

@@ -28,7 +28,7 @@ The skills currently in my arsenal are:
   -Photography
   
 
-## Projects
+## Persoanl Projects
 I currently have a project for X-Plane 11. In this project I'm making model of the A350-1000 for people to use and explore the pleasure of the aircraft. I've been improving the model for better quality and performance in the simulator by exploring a bunch of papers on the A350-1000 systems, parts, and specification. I often post my progress on Xplane.org, which is a community website for X-plane users, the link to my page is [here](https://forums.x-plane.org/index.php?/profile/1064692-unknown__/). 
 
 Once the modeling part is done, I plan to work on the "back-end" of the aircraft, basically all the code that will be needed for it to run as intended and as realistically as possible. After finishing the back-end portion of the aircraft, I'll move onto texturing the aircraft (making it look visually appealing).
